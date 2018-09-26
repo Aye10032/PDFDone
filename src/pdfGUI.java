@@ -35,6 +35,8 @@ public class pdfGUI extends JFrame implements ActionListener, DropTargetListener
     JRadioButton img = new JRadioButton("图片");
     ButtonGroup whic = new ButtonGroup();
 
+    JButton open = new JButton("打开文件");
+    JButton openFile = new JButton("打开文件夹");
     JButton start = new JButton("开始");
 
     public pdfGUI(){
@@ -88,8 +90,10 @@ public class pdfGUI extends JFrame implements ActionListener, DropTargetListener
         dp.setBorder(BorderFactory.createEtchedBorder());
         dp.setLayout(new GridBagLayout());
 
-        LayoutUtil.add(dp, GridBagConstraints.HORIZONTAL, GridBagConstraints.CENTER, 1, 0, 0, 0, 1, 1, new JLabel());
-        LayoutUtil.add(dp, GridBagConstraints.NONE, GridBagConstraints.CENTER, 0, 0, 1, 0, 1, 1, start);
+        LayoutUtil.add(dp, GridBagConstraints.NONE, GridBagConstraints.CENTER, 0, 0, 0, 0, 1, 1, start,new Insets(5,10,5,10));
+        LayoutUtil.add(dp, GridBagConstraints.HORIZONTAL, GridBagConstraints.CENTER, 1, 0, 1, 0, 1, 1, new JLabel());
+        LayoutUtil.add(dp, GridBagConstraints.NONE, GridBagConstraints.CENTER, 0, 0, 2, 0, 1, 1, open,new Insets(5,10,5,10));
+        LayoutUtil.add(dp, GridBagConstraints.NONE, GridBagConstraints.CENTER, 0, 0, 3, 0, 1, 1, openFile,new Insets(5,10,5,10));
 
         getContentPane().add(dp, BorderLayout.SOUTH);
 
@@ -100,6 +104,8 @@ public class pdfGUI extends JFrame implements ActionListener, DropTargetListener
         rtf.addActionListener(this);
         word.addActionListener(this);
         img.addActionListener(this);
+        open.addActionListener(this);
+        openFile.addActionListener(this);
 
         dropTarget = new DropTarget(chooseJF, DnDConstants.ACTION_COPY_OR_MOVE, this, true);
     }
@@ -199,6 +205,26 @@ public class pdfGUI extends JFrame implements ActionListener, DropTargetListener
                 config.setFlag(2);
                 outputJF.setText(config.getOutPath());
                 config.setOutPath(outputJF.getText());
+            }
+        }else if (source == open){
+            if (outputJF.getText().equals("")) {
+                JOptionPane.showMessageDialog(this, "请先选择输出目录！", "warning", JOptionPane.YES_NO_OPTION);
+            }else {
+                try {
+                    Desktop.getDesktop().open(new File(outputJF.getText()));
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
+            }
+        }else if (source == openFile){
+            if (outputJF.getText().equals("")) {
+                JOptionPane.showMessageDialog(this, "请先选择输出目录！", "warning", JOptionPane.YES_NO_OPTION);
+            }else {
+                try {
+                    Desktop.getDesktop().open(new File(new File(outputJF.getText()).getParent()));
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
             }
         }
     }
