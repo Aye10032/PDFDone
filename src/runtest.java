@@ -1,18 +1,37 @@
 import util.config;
 import util.pdfdeal;
 
+import javax.swing.*;
+import java.awt.*;
 import java.io.IOException;
 
 public class runtest {
 
     public static void main(String[] args) {
-        config.setPdfPath("C:\\Users\\Aye10032\\Desktop\\test.pdf");
-        config.setOutPath("C:\\Users\\Aye10032\\Desktop\\test.txt");
+        String lookAndFeel = "com.sun.java.swing.plaf.windows.WindowsLookAndFeel";
         try {
-            new pdfdeal();
-        } catch (IOException e) {
+            UIManager.setLookAndFeel(lookAndFeel);
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (UnsupportedLookAndFeelException e) {
             e.printStackTrace();
         }
+
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        int screenWidth = screenSize.width;
+        int screenHeight = screenSize.height;
+        int windowWidth = 900;
+        int windowHeight = 600;
+
+        pdfGUI window1 = new pdfGUI();
+        window1.setTitle("PDF转换 V0.1");
+        window1.setBounds((screenWidth - windowWidth) / 2, (screenHeight - windowHeight) / 2, windowWidth, windowHeight);
+        window1.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        window1.show();
     }
 
 }
