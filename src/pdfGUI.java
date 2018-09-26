@@ -5,12 +5,16 @@ import util.getFileName;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.dnd.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.IOException;
+import java.util.Iterator;
+import java.util.List;
 
 public class pdfGUI extends JFrame implements ActionListener, DropTargetListener {
 
@@ -122,7 +126,26 @@ public class pdfGUI extends JFrame implements ActionListener, DropTargetListener
 
     @Override
     public void drop(DropTargetDropEvent dtde) {
-
+        try {
+            if (dtde.isDataFlavorSupported(DataFlavor.javaFileListFlavor)) {
+                dtde.acceptDrop(DnDConstants.ACTION_COPY_OR_MOVE);
+                java.util.List list = (List) (dtde.getTransferable()
+                        .getTransferData(DataFlavor.javaFileListFlavor));
+                Iterator iterator = list.iterator();
+                while (iterator.hasNext()) {
+                    File f = (File) iterator.next();
+                    chooseJF.setText(f.getAbsolutePath());
+                    config.setPdfPath(chooseJF.getText());
+                }
+                dtde.dropComplete(true);
+            } else {
+                dtde.rejectDrop();
+            }
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
+        } catch (UnsupportedFlavorException ufe) {
+            ufe.printStackTrace();
+        }
     }
 
     @Override

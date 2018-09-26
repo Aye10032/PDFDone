@@ -5,7 +5,7 @@ import java.io.File;
 public class config {
 
     private static String pdfPath = "";
-    private static String outPath = "";
+    private static String outPath = "C:\\Users\\"+System.getProperty("user.name")+"\\Documents\\PDFDone\\new.txt";
     private static int flag = 1;
 
     public static String getPdfPath() {
