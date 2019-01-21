@@ -24,8 +24,8 @@ public class runtest {
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         int screenWidth = screenSize.width;
         int screenHeight = screenSize.height;
-        int windowWidth = 900;
-        int windowHeight = 600;
+        int windowWidth = 600;
+        int windowHeight = 700;
 
         pdfGUI window1 = new pdfGUI();
         window1.setTitle("PDF转换 V0.1");

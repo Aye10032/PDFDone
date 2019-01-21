@@ -35,6 +35,8 @@ public class pdfGUI extends JFrame implements ActionListener, DropTargetListener
     JRadioButton img = new JRadioButton("图片");
     ButtonGroup whic = new ButtonGroup();
 
+    JButton splitIMG = new JButton();
+
     JButton open = new JButton("打开文件");
     JButton openFile = new JButton("打开文件夹");
     JButton start = new JButton("开始");
@@ -48,12 +50,12 @@ public class pdfGUI extends JFrame implements ActionListener, DropTargetListener
 
         LayoutUtil.add(p, GridBagConstraints.BOTH, GridBagConstraints.CENTER, 1, 1, 0, 0, 6, 1, new JLabel());
 
-        LayoutUtil.add(p, GridBagConstraints.NONE, GridBagConstraints.CENTER, 0, 0, 0, 1, 1, 1, chooseJL, new Insets(10, 10, 10, 10));
-        LayoutUtil.add(p, GridBagConstraints.HORIZONTAL, GridBagConstraints.CENTER, 1, 0, 1, 1, 4, 1, chooseJF, new Insets(10, 10, 10, 10));
-        LayoutUtil.add(p, GridBagConstraints.NONE, GridBagConstraints.CENTER, 0, 0, 6, 1, 1, 1, chooseJB, new Insets(10, 10, 10, 10));
-        LayoutUtil.add(p, GridBagConstraints.NONE, GridBagConstraints.CENTER, 0, 0, 0, 2, 1, 1, outputJL, new Insets(10, 10, 10, 10));
-        LayoutUtil.add(p, GridBagConstraints.HORIZONTAL, GridBagConstraints.CENTER, 1, 0, 1, 2, 4, 1, outputJF, new Insets(10, 10, 10, 10));
-        LayoutUtil.add(p, GridBagConstraints.NONE, GridBagConstraints.CENTER, 0, 0, 6, 2, 1, 1, outputJB, new Insets(10, 10, 10, 10));
+        LayoutUtil.add(p, GridBagConstraints.NONE, GridBagConstraints.CENTER, 0, 0, 0, 1, 1, 1, chooseJL, new Insets(10, 5, 10, 5));
+        LayoutUtil.add(p, GridBagConstraints.HORIZONTAL, GridBagConstraints.CENTER, 1, 0, 1, 1, 4, 1, chooseJF, new Insets(10, 5, 10, 5));
+        LayoutUtil.add(p, GridBagConstraints.NONE, GridBagConstraints.CENTER, 0, 0, 6, 1, 1, 1, chooseJB, new Insets(10, 5, 10, 5));
+        LayoutUtil.add(p, GridBagConstraints.NONE, GridBagConstraints.CENTER, 0, 0, 0, 2, 1, 1, outputJL, new Insets(10, 5, 10, 5));
+        LayoutUtil.add(p, GridBagConstraints.HORIZONTAL, GridBagConstraints.CENTER, 1, 0, 1, 2, 4, 1, outputJF, new Insets(10, 5, 10, 5));
+        LayoutUtil.add(p, GridBagConstraints.NONE, GridBagConstraints.CENTER, 0, 0, 6, 2, 1, 1, outputJB, new Insets(10, 5, 10, 5));
 
         LayoutUtil.add(p, GridBagConstraints.BOTH, GridBagConstraints.CENTER, 1, 1, 0, 3, 6, 1, new JLabel());
 
@@ -83,6 +85,12 @@ public class pdfGUI extends JFrame implements ActionListener, DropTargetListener
         }
 
         LayoutUtil.add(p, GridBagConstraints.BOTH, GridBagConstraints.CENTER, 1, 1, 0, 4, 4, 1, p1);
+
+        JPanel p2 = new JPanel();
+        p2.setLayout(new GridLayout(4, 0));
+        p2.setBorder(BorderFactory.createTitledBorder("其他功能："));
+
+        LayoutUtil.add(p, GridBagConstraints.BOTH, GridBagConstraints.CENTER, 1, 1, 4, 4, 4, 1, p2);
 
         getContentPane().add(p, BorderLayout.CENTER);
 
