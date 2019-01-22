@@ -30,6 +30,16 @@ public class config {
         return outPath;
     }
 
+    public static String getOutName() {
+        File outFile = new File(outPath);
+        String path = outFile.getParent();
+        String name = outFile.getName().split("\\.")[0];
+
+        String OutName = path + "\\" + name;
+
+        return OutName;
+    }
+
     public static void setFlag(int flag) {
         config.flag = flag;
     }
@@ -48,6 +58,9 @@ public class config {
                 break;
             case 2:
                 type = ".rtf";
+                break;
+            case 4:
+                type = ".png";
                 break;
         }
 

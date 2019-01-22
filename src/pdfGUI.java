@@ -64,7 +64,6 @@ public class pdfGUI extends JFrame implements ActionListener, DropTargetListener
         p1.setBorder(BorderFactory.createTitledBorder("输出文件类型："));
 
         word.setEnabled(false);
-        img.setEnabled(false);
         whic.add(txt);
         p1.add(txt);
         whic.add(rtf);
@@ -172,9 +171,9 @@ public class pdfGUI extends JFrame implements ActionListener, DropTargetListener
             }else {
                 config.setPdfPath(chooseJF.getText());
                 config.setOutPath(outputJF.getText());
-                System.out.println(getFileName.filename(config.getPdfPath()));
+                //System.out.println(getFileName.filename(config.getPdfPath()));
                 try {
-                    new pdfdeal();
+                    new pdfdeal(config.getFlag());
                 } catch (IOException e1) {
                     e1.printStackTrace();
                 }finally {
@@ -211,6 +210,14 @@ public class pdfGUI extends JFrame implements ActionListener, DropTargetListener
                 JOptionPane.showMessageDialog(this, "请先选择输出目录！", "warning", JOptionPane.YES_NO_OPTION);
             }else {
                 config.setFlag(2);
+                outputJF.setText(config.getOutPath());
+                config.setOutPath(outputJF.getText());
+            }
+        } else if (source == img) {
+            if (outputJF.getText().equals("")) {
+                JOptionPane.showMessageDialog(this, "请先选择输出目录！", "warning", JOptionPane.YES_NO_OPTION);
+            } else {
+                config.setFlag(4);
                 outputJF.setText(config.getOutPath());
                 config.setOutPath(outputJF.getText());
             }
@@ -298,6 +305,9 @@ class saveFileFilter extends javax.swing.filechooser.FileFilter implements FileF
                 break;
             case 2:
                 des = "RTF格式(*.rtf)";
+                break;
+            case 4:
+                des = "便携式网络图形PNG(*.png)";
         }
 
         return des;
