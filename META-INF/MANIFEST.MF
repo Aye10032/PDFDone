@@ -1,5 +1,6 @@
 Manifest-Version: 1.0
 Class-Path: libs/pdfbox-2.0.9.jar libs/fontbox-2.0.9.jar libs/commons-
- logging-1.2.jar
+ logging-1.2.jar libs/jbig2-imageio-3.0.0.jar libs/pdfbox-tools-2.0.13
+ .jar
 Main-Class: runtest
 

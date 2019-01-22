@@ -30,7 +30,7 @@ public class runtest {
         int windowHeight = 700;
 
         pdfGUI window1 = new pdfGUI();
-        window1.setTitle("PDF转换 V0.1");
+        window1.setTitle("PDF转换 V0.1.1");
         window1.setBounds((screenWidth - windowWidth) / 2, (screenHeight - windowHeight) / 2, windowWidth, windowHeight);
         window1.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         window1.setVisible(true);
