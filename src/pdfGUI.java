@@ -1,7 +1,7 @@
 import util.LayoutUtil;
 import util.config;
-import util.pdfdeal;
 import util.getFileName;
+import util.pdfdeal;
 
 import javax.swing.*;
 import java.awt.*;
@@ -18,8 +18,6 @@ import java.util.List;
 
 public class pdfGUI extends JFrame implements ActionListener, DropTargetListener {
 
-    private DropTarget dropTarget;
-
     JLabel chooseJL = new JLabel("PDF路径：");
     JTextField chooseJF = new JTextField("");
     JButton chooseJB = new JButton("…");
@@ -28,20 +26,18 @@ public class pdfGUI extends JFrame implements ActionListener, DropTargetListener
     JTextField outputJF = new JTextField("");
     JButton outputJB = new JButton("…");
     JFileChooser chooserOutPut = new JFileChooser();
-
     JRadioButton txt = new JRadioButton("txt");
     JRadioButton rtf = new JRadioButton("rtf");
     JRadioButton word = new JRadioButton("word");
     JRadioButton img = new JRadioButton("图片");
     ButtonGroup whic = new ButtonGroup();
-
     JButton splitIMG = new JButton();
-
     JButton open = new JButton("打开文件");
     JButton openFile = new JButton("打开文件夹");
     JButton start = new JButton("开始");
+    private DropTarget dropTarget;
 
-    public pdfGUI(){
+    public pdfGUI() {
         chooserInput.setFileFilter(new choosetFileFilter());
 
         JPanel p = new JPanel();
@@ -75,7 +71,7 @@ public class pdfGUI extends JFrame implements ActionListener, DropTargetListener
 
         if (config.getFlag() == 1) {
             txt.setSelected(true);
-        }else if (config.getFlag() == 2){
+        } else if (config.getFlag() == 2) {
             rtf.setSelected(true);
         } else if (config.getFlag() == 3) {
             word.setSelected(true);
@@ -97,10 +93,10 @@ public class pdfGUI extends JFrame implements ActionListener, DropTargetListener
         dp.setBorder(BorderFactory.createEtchedBorder());
         dp.setLayout(new GridBagLayout());
 
-        LayoutUtil.add(dp, GridBagConstraints.NONE, GridBagConstraints.CENTER, 0, 0, 0, 0, 1, 1, start,new Insets(5,10,5,10));
+        LayoutUtil.add(dp, GridBagConstraints.NONE, GridBagConstraints.CENTER, 0, 0, 0, 0, 1, 1, start, new Insets(5, 10, 5, 10));
         LayoutUtil.add(dp, GridBagConstraints.HORIZONTAL, GridBagConstraints.CENTER, 1, 0, 1, 0, 1, 1, new JLabel());
-        LayoutUtil.add(dp, GridBagConstraints.NONE, GridBagConstraints.CENTER, 0, 0, 2, 0, 1, 1, open,new Insets(5,10,5,10));
-        LayoutUtil.add(dp, GridBagConstraints.NONE, GridBagConstraints.CENTER, 0, 0, 3, 0, 1, 1, openFile,new Insets(5,10,5,10));
+        LayoutUtil.add(dp, GridBagConstraints.NONE, GridBagConstraints.CENTER, 0, 0, 2, 0, 1, 1, open, new Insets(5, 10, 5, 10));
+        LayoutUtil.add(dp, GridBagConstraints.NONE, GridBagConstraints.CENTER, 0, 0, 3, 0, 1, 1, openFile, new Insets(5, 10, 5, 10));
 
         getContentPane().add(dp, BorderLayout.SOUTH);
 
@@ -115,6 +111,9 @@ public class pdfGUI extends JFrame implements ActionListener, DropTargetListener
         openFile.addActionListener(this);
 
         dropTarget = new DropTarget(chooseJF, DnDConstants.ACTION_COPY_OR_MOVE, this, true);
+
+        open.setEnabled(false);
+        openFile.setEnabled(false);
     }
 
     @Override
@@ -165,10 +164,10 @@ public class pdfGUI extends JFrame implements ActionListener, DropTargetListener
     public void actionPerformed(ActionEvent e) {
         Object source = e.getSource();
 
-        if (source == start){
-            if (chooseJF.getText().equals("") || outputJF.getText().equals("")){
+        if (source == start) {
+            if (chooseJF.getText().equals("") || outputJF.getText().equals("")) {
                 JOptionPane.showMessageDialog(this, "请正确选择目录！", "warning", JOptionPane.YES_NO_OPTION);
-            }else {
+            } else {
                 config.setPdfPath(chooseJF.getText());
                 config.setOutPath(outputJF.getText());
                 //System.out.println(getFileName.filename(config.getPdfPath()));
@@ -176,65 +175,63 @@ public class pdfGUI extends JFrame implements ActionListener, DropTargetListener
                     new pdfdeal(config.getFlag());
                 } catch (IOException e1) {
                     e1.printStackTrace();
-                }finally {
+                } finally {
                     JOptionPane.showMessageDialog(this, "处理完毕！", "warning", JOptionPane.PLAIN_MESSAGE);
+
+                    if (config.getFlag() == 1 || config.getFlag() == 2)
+                        open.setEnabled(true);
+                    openFile.setEnabled(true);
                 }
             }
-        }else if (source == chooseJB){
+        } else if (source == chooseJB) {
             int result = chooserInput.showOpenDialog(this);
             if (result == JFileChooser.APPROVE_OPTION) ;
             chooseJF.setText(chooserInput.getSelectedFile().getAbsolutePath());
             config.setPdfPath(chooseJF.getText());
-        }else if (source == outputJB){
-            File outFile = new File("C:\\Users\\"+System.getProperty("user.name")+"\\Documents\\PDFDone");
-            if (!outFile.exists()){
+        } else if (source == outputJB) {
+            File outFile = new File("C:\\Users\\" + System.getProperty("user.name") + "\\Documents\\PDFDone");
+            if (!outFile.exists()) {
                 outFile.mkdirs();
             }
-            chooserOutPut.setCurrentDirectory(new File("C:\\Users\\"+System.getProperty("user.name")+"\\Documents\\PDFDone"));
+            chooserOutPut.setCurrentDirectory(new File("C:\\Users\\" + System.getProperty("user.name") + "\\Documents\\PDFDone"));
             chooserOutPut.setSelectedFile(new File(getFileName.filename(config.getPdfPath()) + config.getType()));
             chooserOutPut.setFileFilter(new saveFileFilter());
             int result = chooserOutPut.showSaveDialog(this);
-            if (result == JFileChooser.APPROVE_OPTION);
+            if (result == JFileChooser.APPROVE_OPTION) ;
             outputJF.setText(chooserOutPut.getSelectedFile().getAbsolutePath());
             config.setOutPath(outputJF.getText());
-        }else if (source == txt){
-            if (outputJF.getText().equals("")){
-                JOptionPane.showMessageDialog(this, "请先选择输出目录！", "warning", JOptionPane.YES_NO_OPTION);
-            }else {
-                config.setFlag(1);
-                outputJF.setText(config.getOutPath());
-                config.setOutPath(outputJF.getText());
-            }
-        }else if (source == rtf){
-            if (outputJF.getText().equals("")){
-                JOptionPane.showMessageDialog(this, "请先选择输出目录！", "warning", JOptionPane.YES_NO_OPTION);
-            }else {
-                config.setFlag(2);
-                outputJF.setText(config.getOutPath());
-                config.setOutPath(outputJF.getText());
-            }
+        } else if (source == txt) {
+
+            config.setFlag(1);
+            outputJF.setText(config.getOutPath());
+            config.setOutPath(outputJF.getText());
+
+        } else if (source == rtf) {
+
+            config.setFlag(2);
+            outputJF.setText(config.getOutPath());
+            config.setOutPath(outputJF.getText());
+
         } else if (source == img) {
+
+            config.setFlag(4);
+            outputJF.setText(config.getOutPath());
+            config.setOutPath(outputJF.getText());
+
+        } else if (source == open) {
             if (outputJF.getText().equals("")) {
                 JOptionPane.showMessageDialog(this, "请先选择输出目录！", "warning", JOptionPane.YES_NO_OPTION);
             } else {
-                config.setFlag(4);
-                outputJF.setText(config.getOutPath());
-                config.setOutPath(outputJF.getText());
-            }
-        }else if (source == open){
-            if (outputJF.getText().equals("")) {
-                JOptionPane.showMessageDialog(this, "请先选择输出目录！", "warning", JOptionPane.YES_NO_OPTION);
-            }else {
                 try {
                     Desktop.getDesktop().open(new File(outputJF.getText()));
                 } catch (IOException e1) {
                     e1.printStackTrace();
                 }
             }
-        }else if (source == openFile){
+        } else if (source == openFile) {
             if (outputJF.getText().equals("")) {
                 JOptionPane.showMessageDialog(this, "请先选择输出目录！", "warning", JOptionPane.YES_NO_OPTION);
-            }else {
+            } else {
                 try {
                     Desktop.getDesktop().open(new File(new File(outputJF.getText()).getParent()));
                 } catch (IOException e1) {
@@ -249,8 +246,7 @@ class choosetFileFilter extends javax.swing.filechooser.FileFilter implements Fi
 
     @Override
     public boolean accept(File f) {
-        if (f.isDirectory())
-        {
+        if (f.isDirectory()) {
             return true;
         }
 
@@ -260,14 +256,10 @@ class choosetFileFilter extends javax.swing.filechooser.FileFilter implements Fi
         if (index > 0 && index < fileName.length() - 1) {
             extension = fileName.substring(index + 1).toLowerCase();
         }
-        if (extension != null)
-        {
-            if (extension.equals("pdf") || extension.equals("PDF"))
-            {
+        if (extension != null) {
+            if (extension.equals("pdf") || extension.equals("PDF")) {
                 return true;
-            }
-            else
-            {
+            } else {
                 return false;
             }
         }
@@ -284,8 +276,7 @@ class saveFileFilter extends javax.swing.filechooser.FileFilter implements FileF
 
     @Override
     public boolean accept(File f) {
-        if (f.isDirectory())
-        {
+        if (f.isDirectory()) {
             return true;
         }
 
@@ -299,7 +290,7 @@ class saveFileFilter extends javax.swing.filechooser.FileFilter implements FileF
     public String getDescription() {
         String des = null;
 
-        switch (config.getFlag()){
+        switch (config.getFlag()) {
             case 1:
                 des = "文本文档(*.txt)";
                 break;
